@@ -2,8 +2,15 @@
   "name": "app",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://karanjotsingh-max.github.io/",
+  
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "nodemon": "^3.1.9"
   }
 }

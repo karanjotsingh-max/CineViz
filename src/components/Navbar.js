@@ -1,3 +1,4 @@
+// src/Navbar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -15,16 +16,15 @@ function Navbar() {
       <nav>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <li style={{ marginBottom: '10px' }}>
+            <NavLink to="/" style={{ textDecoration: 'none' }}>
+              Home
+            </NavLink>
+          </li>
+          <li style={{ marginBottom: '10px' }}>
             <NavLink to="/movies" style={{ textDecoration: 'none' }}>
               Movies
             </NavLink>
           </li>
-          {/* <li style={{ marginBottom: '10px' }}>
-            <NavLink to="/web-series">Web Series</NavLink>
-          </li>
-          <li style={{ marginBottom: '10px' }}>
-            <NavLink to="/anime">Anime</NavLink>
-          </li> */}
         </ul>
       </nav>
     </div>

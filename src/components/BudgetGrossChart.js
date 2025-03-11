@@ -1,27 +1,20 @@
 // src/components/BudgetGrossChart.js
 import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
+import moviesData from '../data/movies_data.json';  // ✅ Import JSON directly
 
 function BudgetGrossChart() {
   const [movies, setMovies] = useState([]);
   const [selectedYear, setSelectedYear] = useState(""); 
   const [loading, setLoading] = useState(true);
 
-  // 1. Fetch movie data from the JSON file
+  // 1. Load movie data from imported JSON (no fetch needed)
   useEffect(() => {
-    fetch('/data/movies_data.json')
-      .then(resp => resp.json())
-      .then(data => {
-        setMovies(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching movies:', err);
-        setLoading(false);
-      });
+    setMovies(moviesData);
+    setLoading(false);
   }, []);
 
-  // 2. Once movies are loaded, set the default year to the maximum year in the dataset
+  // 2. Set the default year to the maximum year in the dataset
   useEffect(() => {
     if (movies.length > 0 && selectedYear === "") {
       const maxYear = String(Math.max(...movies.map(m => Number(m.year))));

@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import GenreChart from './GenreChart';
 import BudgetGrossChart from './BudgetGrossChart';
-// Removed: import StackedAreaChart from './StackedAreaChart';
 import WorldMap from './WorldMap';
+import moviesData from '../data/movies_data.json';  // ✅ Import JSON directly
 
 function MoviesPage() {
   const [movies, setMovies] = useState([]);
@@ -14,13 +14,9 @@ function MoviesPage() {
   const [sortOrder, setSortOrder] = useState("count");
 
   useEffect(() => {
-    fetch('/data/movies_data.json')
-      .then((resp) => resp.json())
-      .then((data) => {
-        setMovies(data);
-        setFilteredMovies(data);
-      })
-      .catch((err) => console.error('Error fetching JSON:', err));
+    // ✅ Load JSON data directly (no fetch required)
+    setMovies(moviesData);
+    setFilteredMovies(moviesData);
   }, []);
 
   /*
@@ -89,7 +85,6 @@ function MoviesPage() {
       <h1>🎬 Movies Dashboard</h1>
       <GenreChart genreLabels={genreLabels} genreValues={genreValues} />
       <BudgetGrossChart budgetValues={budgetValues} grossValues={grossValues} voteSizes={voteSizes} />
-      {/* Removed the StackedAreaChart */}
       <WorldMap
         countryNames={Object.keys(bestMovieByCountry)}
         bestMovieScores={Object.values(bestMovieByCountry).map(m => m.score)}
