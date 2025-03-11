@@ -2,7 +2,7 @@
   "name": "app",
   "version": "1.0.0",
   "main": "index.js",
-  "homepage": "https://karanjotsingh-max.github.io/",
+  "homepage": "https://karanjotsingh-max.github.io/CineViz",
   
   "scripts": {
     "start": "react-scripts start",
