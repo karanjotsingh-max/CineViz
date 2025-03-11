@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/CineViz/static/js/main.60e1daf7.js",
+    "main.js": "/CineViz/static/js/main.5b548a90.js",
     "index.html": "/CineViz/index.html",
-    "main.60e1daf7.js.map": "/CineViz/static/js/main.60e1daf7.js.map"
+    "main.5b548a90.js.map": "/CineViz/static/js/main.5b548a90.js.map"
   },
   "entrypoints": [
-    "static/js/main.60e1daf7.js"
+    "static/js/main.5b548a90.js"
   ]
 }
