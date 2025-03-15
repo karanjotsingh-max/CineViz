@@ -1,10 +1,36 @@
 {
   "files": {
-    "main.js": "/CineViz/static/js/main.09c796ec.js",
+    "main.css": "/CineViz/static/css/main.d221dc40.css",
+    "main.js": "/CineViz/static/js/main.56919c5b.js",
+    "static/media/image1.webp": "/CineViz/static/media/image1.58dc3ab4d568df21919d.webp",
+    "static/media/image3.webp": "/CineViz/static/media/image3.cb250d0be13d8f9c5698.webp",
+    "static/media/image7.webp": "/CineViz/static/media/image7.1e74b48ad01327087754.webp",
+    "static/media/image9.webp": "/CineViz/static/media/image9.54a1d08af37ec4922d02.webp",
+    "static/media/image6.webp": "/CineViz/static/media/image6.2aee7f284f69cf825edb.webp",
+    "static/media/image11.webp": "/CineViz/static/media/image11.81d652dfaf7f9410e363.webp",
+    "static/media/image5.webp": "/CineViz/static/media/image5.0b0acb360ef897e19406.webp",
+    "static/media/image2.webp": "/CineViz/static/media/image2.4f6d2db1f3008708c4be.webp",
+    "static/media/image10.webp": "/CineViz/static/media/image10.ec9d515224d9629eabff.webp",
+    "static/media/image4.webp": "/CineViz/static/media/image4.b0188537e059026687d4.webp",
+    "static/media/animedashboard.png": "/CineViz/static/media/animedashboard.b1c39096f8554fbf303e.png",
+    "static/media/image8.webp": "/CineViz/static/media/image8.6bc5c7496d53f4df0147.webp",
+    "static/media/moviesdashboard.png": "/CineViz/static/media/moviesdashboard.74d2dcbe5fc7f1354062.png",
+    "static/media/k2.png": "/CineViz/static/media/k2.63877b10b52a261dbb5d.png",
+    "static/media/s2.png": "/CineViz/static/media/s2.25a81f140dd5beb4df7b.png",
+    "static/media/t2.png": "/CineViz/static/media/t2.70f8911e563720d0c973.png",
+    "static/media/t3.png": "/CineViz/static/media/t3.ff588824bcdb15210f96.png",
+    "static/media/s3.png": "/CineViz/static/media/s3.dd02a9cc81ec7f05f723.png",
+    "static/media/k3.png": "/CineViz/static/media/k3.b1b912e382adf2fc8a94.png",
+    "static/media/s1.png": "/CineViz/static/media/s1.d0fed750a560c8171586.png",
+    "static/media/k1.png": "/CineViz/static/media/k1.028a454f531b54ff4cdf.png",
+    "static/media/t1.png": "/CineViz/static/media/t1.26428a6105384591eaae.png",
+    "static/media/headingImage.png": "/CineViz/static/media/headingImage.e35293d1949a387d3179.png",
     "index.html": "/CineViz/index.html",
-    "main.09c796ec.js.map": "/CineViz/static/js/main.09c796ec.js.map"
+    "main.d221dc40.css.map": "/CineViz/static/css/main.d221dc40.css.map",
+    "main.56919c5b.js.map": "/CineViz/static/js/main.56919c5b.js.map"
   },
   "entrypoints": [
-    "static/js/main.09c796ec.js"
+    "static/css/main.d221dc40.css",
+    "static/js/main.56919c5b.js"
   ]
 }
