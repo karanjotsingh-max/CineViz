@@ -7,6 +7,13 @@ function BudgetGrossChart() {
   const [movies, setMovies] = useState([]);
   const [selectedYear, setSelectedYear] = useState(""); 
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
+
+  // Theme variables for dark/light mode
+  const paperBg = darkMode ? "#333" : "#fff";
+  const plotBg = darkMode ? "#444" : "#fff";
+  const textColor = darkMode ? "white" : "black";
+  const containerBg = darkMode ? "#222" : "#f8f8f8";
 
   // 1. Load movie data from imported JSON (no fetch needed)
   useEffect(() => {
@@ -83,15 +90,18 @@ function BudgetGrossChart() {
   const layout = {
     xaxis: {
       title: { text: 'Budget ($)', font: { size: 16, family: 'Arial Black' } },
-      gridcolor: 'rgba(200, 200, 200, 0.3)',
+      gridcolor: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(200, 200, 200, 0.3)',
+      tickfont: { color: textColor },
     },
     yaxis: {
       title: { text: 'Gross ($)', font: { size: 16, family: 'Arial Black' } },
-      gridcolor: 'rgba(200, 200, 200, 0.3)',
+      gridcolor: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(200, 200, 200, 0.3)',
+      tickfont: { color: textColor },
     },
     margin: { l: 60, r: 30, t: 50, b: 60 },
-    paper_bgcolor: '#fff',
-    plot_bgcolor: '#fff',
+    paper_bgcolor: paperBg,
+    plot_bgcolor: plotBg,
+    font: { color: textColor },
     transition: {
       duration: 500,
       easing: 'cubic-in-out',
@@ -99,14 +109,14 @@ function BudgetGrossChart() {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center', backgroundColor: containerBg, color: textColor, padding: '20px' }}>
       {/* Title above the dropdown and chart */}
       <h2 style={{ marginBottom: '10px' }}>
         Budget vs. Gross (Top {topMovies.length} Movies in {selectedYear})
       </h2>
 
-      {/* Year Dropdown below the title, above the chart */}
-      <div style={{ marginBottom: '15px' }}>
+      {/* Controls: Year Dropdown and Dark Mode Toggle */}
+      <div style={{ marginBottom: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
         <label htmlFor="yearSelect" style={{ marginRight: '10px' }}>
           Select Year:
         </label>
@@ -122,6 +132,20 @@ function BudgetGrossChart() {
             </option>
           ))}
         </select>
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          style={{
+            padding: '8px',
+            fontSize: '14px',
+            backgroundColor: '#007bff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+          }}
+        >
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
 
       {/* Bubble Chart */}

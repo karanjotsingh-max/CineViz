@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "homepage": "https://karanjotsingh-max.github.io/CineViz",
-  
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
@@ -19,14 +18,18 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "@mui/material": "^6.4.7",
+    "@tailwindcss/vite": "^4.0.13",
     "axios": "^1.8.2",
     "plotly.js": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^7.3.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "tailwindcss": "^4.0.13"
   },
   "browserslist": {
     "production": [
