@@ -4,6 +4,7 @@ import GenreChart from './GenreChart';
 import BudgetGrossChart from './BudgetGrossChart';
 import WorldMap from './WorldMap';
 import moviesData from '../data/movies_data.json';  // ✅ Import JSON directly
+import dashboardImage from '../images/moviesdashboard.png'; // ✅ Import the PNG file
 
 function MoviesPage() {
   const [movies, setMovies] = useState([]);
@@ -24,9 +25,9 @@ function MoviesPage() {
    */
   useEffect(() => {
     let filtered = movies;
-    if (selectedGenre !== "All") 
+    if (selectedGenre !== "All")
       filtered = filtered.filter(m => m.genre?.trim() === selectedGenre);
-    if (selectedYear !== "All") 
+    if (selectedYear !== "All")
       filtered = filtered.filter(m => m.year === selectedYear);
     filtered = filtered.filter(
       m => parseInt(m.budget, 10) >= budgetRange[0] && parseInt(m.budget, 10) <= budgetRange[1]
@@ -81,10 +82,30 @@ function MoviesPage() {
   });
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>🎬 Movies Dashboard</h1>
+    <div style={{
+      backgroundColor: '#141414', // Dark Netflix-like background
+      color: '#fff',              // White text color
+      minHeight: '100vh',
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif'
+    }}>
+      {/* Replace the h1 with the PNG image */}
+      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <img 
+          src={dashboardImage} 
+          alt="Movies Dashboard" 
+          style={{
+            maxWidth: '100%', 
+            height: 'auto'
+          }} 
+        />
+      </div>
       <GenreChart genreLabels={genreLabels} genreValues={genreValues} />
-      <BudgetGrossChart budgetValues={budgetValues} grossValues={grossValues} voteSizes={voteSizes} />
+      <BudgetGrossChart 
+        budgetValues={budgetValues} 
+        grossValues={grossValues} 
+        voteSizes={voteSizes} 
+      />
       <WorldMap
         countryNames={Object.keys(bestMovieByCountry)}
         bestMovieScores={Object.values(bestMovieByCountry).map(m => m.score)}

@@ -5,6 +5,14 @@ function TopAnimeChart({ anime }) {
   const [numAnime, setNumAnime] = useState(10); // ✅ Default: Top 10
   const [minMembers, setMinMembers] = useState(10000); // ✅ Min members filter
   const [showBothTrends, setShowBothTrends] = useState(false); // ✅ Toggle for Both Trends
+  const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
+
+  // Theme variables
+  const paperBg = darkMode ? "#333" : "white";
+  const plotBg = darkMode ? "#444" : "white";
+  const textColor = darkMode ? "white" : "black";
+  const containerBg = darkMode ? "#222" : "#f8f8f8";
+  const gridColor = darkMode ? "rgba(255,255,255,0.3)" : "rgba(200,200,200,0.3)";
 
   // Memoized filtering and sorting logic for performance
   const filteredAnime = useMemo(() => {
@@ -19,7 +27,7 @@ function TopAnimeChart({ anime }) {
   const members = filteredAnime.map(a => a.members);
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div style={{ textAlign: "center", padding: "20px", backgroundColor: containerBg, color: textColor }}>
       <h2>📊 Top Anime by Rating & Members (Line Trend)</h2>
 
       {/* Controls */}
@@ -61,6 +69,22 @@ function TopAnimeChart({ anime }) {
           />
           Show Both Trends
         </label>
+
+        {/* Dark Mode Toggle */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          style={{
+            padding: "8px 12px",
+            fontSize: "14px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          {darkMode ? "Light Mode" : "Dark Mode"}
+        </button>
       </div>
 
       {/* Line Trend Chart */}
@@ -90,17 +114,21 @@ function TopAnimeChart({ anime }) {
         layout={{
           title: "Top Anime by Rating & Members (Trend Analysis)",
           xaxis: {
-            title: { text: "Anime Titles", font: { size: 16, family: "Arial, sans-serif" } }, // ✅ Explicit X-Axis Title
+            title: { text: "Anime Titles", font: { size: 16, family: "Arial, sans-serif", color: textColor } },
             tickangle: -45,
             showgrid: true,
+            gridcolor: gridColor,
+            tickfont: { color: textColor },
           },
           yaxis: {
-            title: { text: "Rating (0-10) / Total Members", font: { size: 16, family: "Arial, sans-serif" } }, // ✅ Explicit Y-Axis Title
-            gridcolor: "rgba(200, 200, 200, 0.3)",
+            title: { text: "Rating (0-10) / Total Members", font: { size: 16, family: "Arial, sans-serif", color: textColor } },
+            gridcolor: gridColor,
+            tickfont: { color: textColor },
           },
           margin: { l: 100, r: 80, t: 60, b: 140 }, // ✅ Adjusted Margins for Axis Title Visibility
-          paper_bgcolor: "white",
-          plot_bgcolor: "white",
+          paper_bgcolor: paperBg,
+          plot_bgcolor: plotBg,
+          font: { color: textColor },
           transition: { duration: 500, easing: "cubic-in-out" }, // ✅ Smooth Animation
         }}
         style={{ width: "100%", height: "600px" }}

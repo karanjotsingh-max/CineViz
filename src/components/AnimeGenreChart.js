@@ -7,6 +7,14 @@ function AnimeGenreChart({ anime }) {
   const [filterText, setFilterText] = useState(""); // ✅ Genre Search
   const [numGenres, setNumGenres] = useState(15); // ✅ Genre Count Limit
   const [chartType, setChartType] = useState("bar"); // ✅ Dropdown Selection
+  const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
+
+  // Theme variables
+  const paperBg = darkMode ? "#333" : "white";
+  const plotBg = darkMode ? "#444" : "white";
+  const textColor = darkMode ? "white" : "black";
+  const containerBg = darkMode ? "#222" : "#f8f8f8";
+  const gridColor = darkMode ? "rgba(255,255,255,0.3)" : "rgba(200,200,200,0.3)";
 
   const genreCount = {};
   anime.forEach((a) => {
@@ -17,29 +25,45 @@ function AnimeGenreChart({ anime }) {
 
   // Convert genre object to array and sort
   let sortedGenres = Object.entries(genreCount);
-  sortedGenres.sort((a, b) => (sortOrder === "desc" ? b[1] - a[1] : a[1] - b[1]));
+  sortedGenres.sort((a, b) =>
+    sortOrder === "desc" ? b[1] - a[1] : a[1] - b[1]
+  );
 
   // Apply search filter
-  sortedGenres = sortedGenres.filter(([genre]) => genre.toLowerCase().includes(filterText.toLowerCase()));
+  sortedGenres = sortedGenres.filter(([genre]) =>
+    genre.toLowerCase().includes(filterText.toLowerCase())
+  );
 
   // Limit the number of genres displayed
   sortedGenres = sortedGenres.slice(0, numGenres);
 
-  const genres = sortedGenres.map(g => g[0]);
-  const counts = sortedGenres.map(g => g[1]);
+  const genres = sortedGenres.map((g) => g[0]);
+  const counts = sortedGenres.map((g) => g[1]);
 
   // Calculate percentage contribution for tooltips
   const totalAnime = counts.reduce((sum, val) => sum + val, 0);
-  const percentages = counts.map(count => ((count / totalAnime) * 100).toFixed(2) + "%");
+  const percentages = counts.map(
+    (count) => ((count / totalAnime) * 100).toFixed(2) + "%"
+  );
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", backgroundColor: containerBg, color: textColor, padding: "20px" }}>
       <h2>📊 Anime Genre Popularity</h2>
 
-      {/* Controls: Sorting, Search, Chart Type, Slider */}
-      <div style={{ marginBottom: "15px", display: "flex", justifyContent: "center", gap: "15px", flexWrap: "wrap" }}>
+      {/* Controls: Sorting, Search, Chart Type, Slider, Dark Mode Toggle */}
+      <div
+        style={{
+          marginBottom: "15px",
+          display: "flex",
+          justifyContent: "center",
+          gap: "15px",
+          flexWrap: "wrap",
+        }}
+      >
         <button
-          onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
+          onClick={() =>
+            setSortOrder(sortOrder === "desc" ? "asc" : "desc")
+          }
           style={{
             padding: "8px 12px",
             fontSize: "14px",
@@ -84,6 +108,22 @@ function AnimeGenreChart({ anime }) {
           />
           {numGenres}
         </label>
+
+        {/* Dark Mode Toggle */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          style={{
+            padding: "8px 12px",
+            fontSize: "14px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          {darkMode ? "Light Mode" : "Dark Mode"}
+        </button>
       </div>
 
       {/* Conditional Chart Rendering */}
@@ -105,18 +145,31 @@ function AnimeGenreChart({ anime }) {
                 colorbar: {
                   title: "Popularity",
                   titleside: "right",
+                  font: { color: textColor },
                 },
               },
-              hoverlabel: { bgcolor: "#333", font: { color: "white" } },
+              hoverlabel: {
+                bgcolor: darkMode ? "#333" : "#fff",
+                font: { color: darkMode ? "white" : "black" },
+              },
             },
           ]}
           layout={{
             title: "Top Anime Genres (Bar Chart)",
-            xaxis: { title: "Number of Anime", gridcolor: "rgba(200, 200, 200, 0.3)" },
-            yaxis: { title: "Genre", automargin: true },
+            xaxis: {
+              title: "Number of Anime",
+              gridcolor: gridColor,
+              tickfont: { color: textColor },
+            },
+            yaxis: {
+              title: "Genre",
+              automargin: true,
+              tickfont: { color: textColor },
+            },
             margin: { l: 150, r: 30, t: 50, b: 60 },
-            paper_bgcolor: "white",
-            plot_bgcolor: "white",
+            paper_bgcolor: paperBg,
+            plot_bgcolor: plotBg,
+            font: { color: textColor },
           }}
           style={{ width: "100%", height: "600px" }}
         />
@@ -134,7 +187,11 @@ function AnimeGenreChart({ anime }) {
               marker: { colorscale: "Blues" },
             },
           ]}
-          layout={{ title: "Top Anime Genres (Pie Chart)", paper_bgcolor: "white" }}
+          layout={{
+            title: "Top Anime Genres (Pie Chart)",
+            paper_bgcolor: paperBg,
+            font: { color: textColor },
+          }}
           style={{ width: "100%", height: "500px" }}
         />
       )}
@@ -151,7 +208,11 @@ function AnimeGenreChart({ anime }) {
               marker: { colorscale: "Blues" },
             },
           ]}
-          layout={{ title: "Top Anime Genres (Treemap)", paper_bgcolor: "white" }}
+          layout={{
+            title: "Top Anime Genres (Treemap)",
+            paper_bgcolor: paperBg,
+            font: { color: textColor },
+          }}
           style={{ width: "100%", height: "500px" }}
         />
       )}

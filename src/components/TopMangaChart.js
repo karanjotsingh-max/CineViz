@@ -5,7 +5,7 @@ import mangaData from "../data/manga_data.json"; // Manga Dataset
 function TopMangaChart() {
   const [viewType, setViewType] = useState("score"); // Default: Top by Score
   const [numManga, setNumManga] = useState(10); // Default: Top 10
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
 
   // Extract view name for display
   const viewName =
