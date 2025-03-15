@@ -72,14 +72,14 @@ function BudgetGrossChart() {
         sizemode: 'area',
         sizeref: 0.1,
         color: budgetValues,
-        colorscale: 'Blues',
+        colorscale: 'Reds',
         showscale: true,
         colorbar: {
           title: 'Budget ($)',
           titleside: 'right',
         },
         line: {
-          color: '#333',
+          color: 'red',
           width: 1,
         },
       },
@@ -137,7 +137,7 @@ function BudgetGrossChart() {
           style={{
             padding: '8px',
             fontSize: '14px',
-            backgroundColor: '#007bff',
+            backgroundColor: '#E50914',
             color: 'white',
             border: 'none',
             borderRadius: '5px',

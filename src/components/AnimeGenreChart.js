@@ -67,7 +67,7 @@ function AnimeGenreChart({ anime }) {
           style={{
             padding: "8px 12px",
             fontSize: "14px",
-            backgroundColor: "#007bff",
+            backgroundColor: "#E50914",
             color: "white",
             border: "none",
             borderRadius: "5px",
@@ -115,7 +115,7 @@ function AnimeGenreChart({ anime }) {
           style={{
             padding: "8px 12px",
             fontSize: "14px",
-            backgroundColor: "#007bff",
+            backgroundColor: '#E50914',
             color: "white",
             border: "none",
             borderRadius: "5px",

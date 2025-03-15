@@ -13,6 +13,7 @@ function TopAnimeChart({ anime }) {
   const textColor = darkMode ? "white" : "black";
   const containerBg = darkMode ? "#222" : "#f8f8f8";
   const gridColor = darkMode ? "rgba(255,255,255,0.3)" : "rgba(200,200,200,0.3)";
+  const netflixRed = "#E50914";
 
   // Memoized filtering and sorting logic for performance
   const filteredAnime = useMemo(() => {
@@ -41,7 +42,7 @@ function TopAnimeChart({ anime }) {
             step="1"
             value={numAnime}
             onChange={(e) => setNumAnime(Number(e.target.value))}
-            style={{ marginLeft: "5px", cursor: "pointer" }}
+            style={{ marginLeft: "5px", cursor: "pointer", accentColor: netflixRed }}
           />
           <b> {numAnime}</b>
         </label>
@@ -55,7 +56,7 @@ function TopAnimeChart({ anime }) {
             step="1000"
             value={minMembers}
             onChange={(e) => setMinMembers(Number(e.target.value))}
-            style={{ marginLeft: "5px", cursor: "pointer" }}
+            style={{ marginLeft: "5px", cursor: "pointer", accentColor: netflixRed }}
           />
           <b> {minMembers}</b>
         </label>
@@ -65,7 +66,7 @@ function TopAnimeChart({ anime }) {
             type="checkbox"
             checked={showBothTrends}
             onChange={() => setShowBothTrends(!showBothTrends)}
-            style={{ marginRight: "5px", cursor: "pointer" }}
+            style={{ marginRight: "5px", cursor: "pointer", accentColor: netflixRed }}
           />
           Show Both Trends
         </label>
@@ -76,7 +77,7 @@ function TopAnimeChart({ anime }) {
           style={{
             padding: "8px 12px",
             fontSize: "14px",
-            backgroundColor: "#007bff",
+            backgroundColor: netflixRed,
             color: "white",
             border: "none",
             borderRadius: "5px",

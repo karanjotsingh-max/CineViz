@@ -133,7 +133,7 @@ function GenreChart({ genreLabels, genreValues, genreDetails }) {
           style={{
             padding: '8px 12px',
             fontSize: '14px',
-            backgroundColor: '#007bff',
+            backgroundColor: '#E50914',
             color: 'white',
             border: 'none',
             borderRadius: '5px',
@@ -163,7 +163,7 @@ function GenreChart({ genreLabels, genreValues, genreDetails }) {
           style={{
             padding: '8px 12px',
             fontSize: '14px',
-            backgroundColor: '#007bff',
+            backgroundColor: '#E50914',
             color: 'white',
             border: 'none',
             borderRadius: '5px',
@@ -216,7 +216,7 @@ function GenreChart({ genreLabels, genreValues, genreDetails }) {
             style={{
               padding: '8px 12px',
               fontSize: '14px',
-              backgroundColor: '#007bff',
+              backgroundColor: '#E50914',
               color: 'white',
               border: 'none',
               borderRadius: '5px',

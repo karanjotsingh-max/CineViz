@@ -1,15 +1,13 @@
-// src/components/WorldMap.js
 import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 
 function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
-  // State for rotation, rotation speed, projection type, and pause/resume
   const [rotation, setRotation] = useState({ lon: 0, lat: 0, roll: 0 });
   const [isRotating, setIsRotating] = useState(true);
-  const [rotationSpeed, setRotationSpeed] = useState(2); // degrees per update
+  const [rotationSpeed, setRotationSpeed] = useState(2);
   const [projectionType, setProjectionType] = useState('orthographic');
+  const [darkMode, setDarkMode] = useState(true); // Dark Mode Toggle
 
-  // Update rotation state if rotating
   useEffect(() => {
     if (!isRotating) return;
     const interval = setInterval(() => {
@@ -18,7 +16,6 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
     return () => clearInterval(interval);
   }, [isRotating, rotationSpeed]);
 
-  // When a country is clicked, show an alert with the country name
   const handleCountryClick = (event) => {
     if (event.points && event.points.length > 0) {
       const clickedCountry = event.points[0].location;
@@ -27,21 +24,45 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h2 style={{ marginBottom: '10px' }}>🌍 Best Movie Per Country</h2>
-      <p style={{ marginBottom: '20px' }}>
-        Average score is indicated by color, and bubble size represents the number of movies produced.
-      </p>
+    <div
+      style={{
+        textAlign: 'center',
+        backgroundColor: darkMode ? '#222' : 'white', // 🌙 Dark mode affects everything except globe
+        color: darkMode ? 'white' : 'black',
+        padding: '20px',
+        minHeight: '100vh',
+      }}
+    >
+      <h2>🌍 Best Movie Per Country</h2>
+      <p>Average score is indicated by color, and bubble size represents the number of movies produced.</p>
 
-      {/* Interactive Controls */}
-      <div style={{ marginBottom: '15px' }}>
+      {/* 🎛 Control Panel (Dark Mode Button is now included) */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '10px',
+          marginBottom: '15px',
+          flexWrap: 'wrap',
+        }}
+      >
         <button
           onClick={() => setIsRotating(!isRotating)}
-          style={{ padding: '8px 12px', marginRight: '10px', fontSize: '14px' }}
+          style={{
+            padding: '8px 12px',
+            fontSize: '14px',
+            backgroundColor: darkMode ? '#E50914' : '#222', // Netflix Red in Dark Mode
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+          }}
         >
           {isRotating ? 'Pause Rotation' : 'Resume Rotation'}
         </button>
-        <label style={{ marginRight: '10px', fontSize: '14px' }}>
+
+        <label style={{ fontSize: '14px' }}>
           Rotation Speed:
           <input
             type="range"
@@ -54,6 +75,7 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
           />
           {rotationSpeed}°/update
         </label>
+
         <label style={{ fontSize: '14px' }}>
           Projection:
           <select
@@ -66,8 +88,27 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
             <option value="mercator">Mercator</option>
           </select>
         </label>
+
+        {/* 🌙 Dark Mode Button - Now placed correctly */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          style={{
+            padding: '8px 12px',
+            fontSize: '14px',
+            backgroundColor: darkMode ? '#E50914' : '#222', // Netflix Red in Dark Mode
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            transition: '0.3s ease-in-out',
+          }}
+        >
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
 
+      {/* 🌍 Plotly Globe */}
       <Plot
         data={[
           {
@@ -82,17 +123,13 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
               line: { color: 'rgb(180,180,180)', width: 0.5 },
             },
             colorbar: {
-              // More descriptive title for the color bar
               title: {
                 text: 'Best Movie Score<br>(Scale 0-10)',
                 side: 'right',
-                font: { size: 12, color: '#333' },
+                font: { size: 12, color: darkMode ? '#ddd' : '#333' },
               },
               thickness: 15,
-              tickfont: { size: 12, color: '#333' },
-              // If you know the score range, you can force it:
-              // cmin: 0,
-              // cmax: 10,
+              tickfont: { size: 12, color: darkMode ? '#ddd' : '#333' },
             },
             hovertemplate:
               "<b>%{location}</b><br>" +
@@ -115,8 +152,8 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
             scope: 'world',
           },
           margin: { l: 60, r: 30, t: 80, b: 80 },
-          paper_bgcolor: 'white',
-          plot_bgcolor: 'white',
+          paper_bgcolor: darkMode ? '#222' : 'white', // Dark mode only for outside globe
+          plot_bgcolor: darkMode ? '#222' : 'white', // Dark mode only for outside globe
           annotations: [
             {
               x: 0.5,
@@ -125,7 +162,7 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
               yref: 'paper',
               text: 'Click on a country for more details.',
               showarrow: false,
-              font: { size: 12, color: '#333' },
+              font: { size: 12, color: darkMode ? '#ddd' : '#333' },
               xanchor: 'center',
               yanchor: 'top',
             },
