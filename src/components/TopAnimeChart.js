@@ -2,12 +2,10 @@ import React, { useState, useMemo } from "react";
 import Plot from "react-plotly.js";
 
 function TopAnimeChart({ anime }) {
-  const [numAnime, setNumAnime] = useState(10); // ✅ Default: Top 10
-  const [minMembers, setMinMembers] = useState(10000); // ✅ Min members filter
-  const [showBothTrends, setShowBothTrends] = useState(false); // ✅ Toggle for Both Trends
-  const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
+  const [viewType, setViewType] = useState("members");
+  const [numAnime, setNumAnime] = useState(10);
+  const [darkMode, setDarkMode] = useState(true);
 
-  // Theme variables
   const paperBg = darkMode ? "#333" : "white";
   const plotBg = darkMode ? "#444" : "white";
   const textColor = darkMode ? "white" : "black";
@@ -15,26 +13,48 @@ function TopAnimeChart({ anime }) {
   const gridColor = darkMode ? "rgba(255,255,255,0.3)" : "rgba(200,200,200,0.3)";
   const netflixRed = "#E50914";
 
-  // Memoized filtering and sorting logic for performance
   const filteredAnime = useMemo(() => {
-    return anime
-      .filter(a => a.members >= minMembers)
-      .sort((a, b) => b.rating - a.rating) // Always sort by rating
+    return [...anime]
+      .filter(a => a.members >= 500000 && !a.name.includes('Gintama') && !a.name.includes('Haikyuu')) // Ensure only anime with more than 10,000 members
+      .sort((a, b) => b[viewType] - a[viewType])
       .slice(0, numAnime);
-  }, [anime, numAnime, minMembers]);
+  }, [anime, numAnime, viewType]);
 
   const animeNames = filteredAnime.map(a => a.name);
-  const ratings = filteredAnime.map(a => a.rating);
-  const members = filteredAnime.map(a => a.members);
+  const values = filteredAnime.map(a => a[viewType]);
 
   return (
     <div style={{ textAlign: "center", padding: "20px", backgroundColor: containerBg, color: textColor }}>
-      <h2>📊 Top Anime by Rating & Members (Line Trend)</h2>
+      <h2>📊 Top Anime by {viewType === "rating" ? "Rating" : "Members"}</h2>
 
       {/* Controls */}
-      <div style={{ marginBottom: "15px", display: "flex", justifyContent: "center", gap: "15px", flexWrap: "wrap" }}>
-        <label style={{ fontSize: "14px" }}>
-          Show Top:
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: "15px",
+          padding: "10px",
+        }}
+      >
+        {/* Filter By Selector */}
+        <label style={{ fontSize: "14px", display: "flex", alignItems: "center", gap: "8px" }}>
+          Filter By:
+          <select
+            value={viewType}
+            onChange={(e) => setViewType(e.target.value)}
+            style={{ padding: "8px", fontSize: "14px", borderRadius: "5px", cursor: "pointer", border: `1px solid ${netflixRed}` }}
+            aria-label="Select filter type"
+          >
+            <option value="rating">Rating</option>
+            <option value="members">Members</option>
+          </select>
+        </label>
+
+        {/* Show Top Anime */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <label style={{ fontSize: "14px" }}>Show Top:</label>
           <input
             type="range"
             min="5"
@@ -42,34 +62,10 @@ function TopAnimeChart({ anime }) {
             step="1"
             value={numAnime}
             onChange={(e) => setNumAnime(Number(e.target.value))}
-            style={{ marginLeft: "5px", cursor: "pointer", accentColor: netflixRed }}
+            style={{ width: "120px", cursor: "pointer", accentColor: netflixRed }}
           />
-          <b> {numAnime}</b>
-        </label>
-
-        <label style={{ fontSize: "14px" }}>
-          Min Members:
-          <input
-            type="range"
-            min="1000"
-            max="1000000"
-            step="1000"
-            value={minMembers}
-            onChange={(e) => setMinMembers(Number(e.target.value))}
-            style={{ marginLeft: "5px", cursor: "pointer", accentColor: netflixRed }}
-          />
-          <b> {minMembers}</b>
-        </label>
-
-        <label style={{ fontSize: "14px", display: "flex", alignItems: "center" }}>
-          <input
-            type="checkbox"
-            checked={showBothTrends}
-            onChange={() => setShowBothTrends(!showBothTrends)}
-            style={{ marginRight: "5px", cursor: "pointer", accentColor: netflixRed }}
-          />
-          Show Both Trends
-        </label>
+          <span style={{ fontSize: "14px", fontWeight: "bold" }}>{numAnime}</span>
+        </div>
 
         {/* Dark Mode Toggle */}
         <button
@@ -88,51 +84,45 @@ function TopAnimeChart({ anime }) {
         </button>
       </div>
 
-      {/* Line Trend Chart */}
+      {/* Bar Chart */}
       <Plot
         data={[
           {
-            type: "scatter",
-            mode: "lines+markers",
-            x: animeNames,
-            y: ratings,
-            name: "Rating",
-            text: ratings.map(r => `⭐ ${r.toFixed(2)}`),
-            marker: { color: "blue", size: 8 },
-            line: { shape: "spline", width: 3 }, // ✅ Smooth Curved Line
+            type: "bar",
+            x: values,
+            y: animeNames,
+            orientation: "h", // Horizontal Bar Chart
+            text: values.map((v) => v.toLocaleString()),
+            textposition: "outside",
+            hoverinfo: "y+x",
+            marker: {
+              color: values,
+              colorscale: "Reds",
+              line: { color: "black", width: 1.5 },
+            },
           },
-          showBothTrends && {
-            type: "scatter",
-            mode: "lines+markers",
-            x: animeNames,
-            y: members,
-            name: "Members",
-            text: members.map(m => `👥 ${m.toLocaleString()}`),
-            marker: { color: "red", size: 8 },
-            line: { dash: "dot", width: 3 }, // ✅ Dotted Line for Members
-          },
-        ].filter(Boolean)} // ✅ Removes undefined datasets when "Both Trends" is off
+        ]}
         layout={{
-          title: "Top Anime by Rating & Members (Trend Analysis)",
+          title: `Top Anime by ${viewType === "rating" ? "Rating" : "Members"}`,
           xaxis: {
-            title: { text: "Anime Titles", font: { size: 16, family: "Arial, sans-serif", color: textColor } },
-            tickangle: -45,
+            title: viewType === "rating" ? "Rating" : "Members",
             showgrid: true,
             gridcolor: gridColor,
             tickfont: { color: textColor },
+            range: viewType === "rating" ? [7, 10] : undefined // Adjust for better UI in Rating filter
           },
           yaxis: {
-            title: { text: "Rating (0-10) / Total Members", font: { size: 16, family: "Arial, sans-serif", color: textColor } },
-            gridcolor: gridColor,
+            automargin: true,
             tickfont: { color: textColor },
           },
-          margin: { l: 100, r: 80, t: 60, b: 140 }, // ✅ Adjusted Margins for Axis Title Visibility
+          margin: { l: 200, r: 80, t: 50, b: 50 }, // Adjust margin for long anime titles
           paper_bgcolor: paperBg,
           plot_bgcolor: plotBg,
           font: { color: textColor },
-          transition: { duration: 500, easing: "cubic-in-out" }, // ✅ Smooth Animation
+          transition: { duration: 500, easing: "cubic-in-out" },
         }}
         style={{ width: "100%", height: "600px" }}
+        useResizeHandler={true}
       />
     </div>
   );

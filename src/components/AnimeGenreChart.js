@@ -1,13 +1,12 @@
-// src/components/anime/AnimeGenreChart.js
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
 
 function AnimeGenreChart({ anime }) {
-  const [sortOrder, setSortOrder] = useState("desc"); // ✅ Sorting Order
-  const [filterText, setFilterText] = useState(""); // ✅ Genre Search
-  const [numGenres, setNumGenres] = useState(15); // ✅ Genre Count Limit
-  const [chartType, setChartType] = useState("bar"); // ✅ Dropdown Selection
-  const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [filterText, setFilterText] = useState("");
+  const [numGenres, setNumGenres] = useState(15);
+  const [chartType, setChartType] = useState("line");
+  const [darkMode, setDarkMode] = useState(true);
 
   // Theme variables
   const paperBg = darkMode ? "#333" : "white";
@@ -23,24 +22,20 @@ function AnimeGenreChart({ anime }) {
     });
   });
 
-  // Convert genre object to array and sort
   let sortedGenres = Object.entries(genreCount);
   sortedGenres.sort((a, b) =>
     sortOrder === "desc" ? b[1] - a[1] : a[1] - b[1]
   );
 
-  // Apply search filter
   sortedGenres = sortedGenres.filter(([genre]) =>
     genre.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  // Limit the number of genres displayed
   sortedGenres = sortedGenres.slice(0, numGenres);
 
   const genres = sortedGenres.map((g) => g[0]);
   const counts = sortedGenres.map((g) => g[1]);
 
-  // Calculate percentage contribution for tooltips
   const totalAnime = counts.reduce((sum, val) => sum + val, 0);
   const percentages = counts.map(
     (count) => ((count / totalAnime) * 100).toFixed(2) + "%"
@@ -58,21 +53,12 @@ function AnimeGenreChart({ anime }) {
           justifyContent: "center",
           gap: "15px",
           flexWrap: "wrap",
+          alignItems: "center",
         }}
       >
         <button
-          onClick={() =>
-            setSortOrder(sortOrder === "desc" ? "asc" : "desc")
-          }
-          style={{
-            padding: "8px 12px",
-            fontSize: "14px",
-            backgroundColor: "#E50914",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
+          onClick={() => setSortOrder(sortOrder === "desc" ? "asc" : "desc")}
+          className="custom-button"
         >
           Sort {sortOrder === "desc" ? "Ascending" : "Descending"}
         </button>
@@ -80,9 +66,9 @@ function AnimeGenreChart({ anime }) {
         <select
           value={chartType}
           onChange={(e) => setChartType(e.target.value)}
-          style={{ padding: "8px 12px", fontSize: "14px" }}
+          className="custom-select"
         >
-          <option value="bar">Bar Chart</option>
+          <option value="line">Line Chart</option>
           <option value="pie">Pie Chart</option>
           <option value="treemap">Treemap</option>
         </select>
@@ -92,11 +78,12 @@ function AnimeGenreChart({ anime }) {
           placeholder="Search genre..."
           value={filterText}
           onChange={(e) => setFilterText(e.target.value)}
-          style={{ padding: "8px 12px", fontSize: "14px" }}
+          className="custom-input"
         />
 
-        <label style={{ fontSize: "14px" }}>
-          Genres to Show:
+        {/* Fixed Slider Alignment */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <label style={{ fontSize: "14px" }}>Genres to Show:</label>
           <input
             type="range"
             min="5"
@@ -104,34 +91,23 @@ function AnimeGenreChart({ anime }) {
             step="1"
             value={numGenres}
             onChange={(e) => setNumGenres(Number(e.target.value))}
-            style={{ marginLeft: "5px" }}
+            className="custom-slider"
+            style={{ width: "150px" }}
           />
-          {numGenres}
-        </label>
+          <span className="badge bg-danger">{numGenres}</span>
+        </div>
 
-        {/* Dark Mode Toggle */}
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          style={{
-            padding: "8px 12px",
-            fontSize: "14px",
-            backgroundColor: '#E50914',
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
+        <button onClick={() => setDarkMode(!darkMode)} className="custom-button">
           {darkMode ? "Light Mode" : "Dark Mode"}
         </button>
       </div>
 
       {/* Conditional Chart Rendering */}
-      {chartType === "bar" && (
+      {chartType === "line" && (
         <Plot
           data={[
             {
-              type: "bar",
+              type: "line",
               orientation: "h",
               x: counts,
               y: genres,
@@ -140,7 +116,7 @@ function AnimeGenreChart({ anime }) {
               hoverinfo: "y+text",
               marker: {
                 color: counts,
-                colorscale: "Blues",
+                colorscale: "Reds",
                 showscale: true,
                 colorbar: {
                   title: "Popularity",
@@ -155,7 +131,7 @@ function AnimeGenreChart({ anime }) {
             },
           ]}
           layout={{
-            title: "Top Anime Genres (Bar Chart)",
+            title: "Top Anime Genres (Line Chart)",
             xaxis: {
               title: "Number of Anime",
               gridcolor: gridColor,
@@ -205,7 +181,7 @@ function AnimeGenreChart({ anime }) {
               parents: Array(genres.length).fill(""),
               values: counts,
               textinfo: "label+value",
-              marker: { colorscale: "Blues" },
+              marker: { colorscale: "Reds" },
             },
           ]}
           layout={{
@@ -216,6 +192,37 @@ function AnimeGenreChart({ anime }) {
           style={{ width: "100%", height: "500px" }}
         />
       )}
+
+      {/* Styles */}
+      <style>
+        {`
+          .custom-button {
+            padding: 10px 15px;
+            font-size: 14px;
+            background-color: #E50914;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+          }
+          .custom-button:hover {
+            background-color: #b20710;
+          }
+          .custom-select, .custom-slider, .custom-input {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: 1px solid #E50914;
+            cursor: pointer;
+          }
+          .badge {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+          }
+        `}
+      </style>
     </div>
   );
 }

@@ -52,8 +52,8 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
           style={{
             padding: '8px 12px',
             fontSize: '14px',
-            backgroundColor: darkMode ? '#E50914' : '#222', // Netflix Red in Dark Mode
-            color: 'white',
+            backgroundColor: darkMode ? '#444' : '#ddd',
+            color: darkMode ? 'white' : 'black',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',

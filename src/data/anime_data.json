@@ -134,7 +134,7 @@
         "type": "Movie",
         "episodes": "1",
         "rating": 9.1,
-        "members": 72534
+        "members": 10534
     },
     {
         "anime_id": 15417,
@@ -288,7 +288,7 @@
     },
     {
         "anime_id": 1575,
-        "name": "Code Geass: Hangyaku no Lelouch",
+        "name": "Code Geass",
         "genre": [
             "Action",
             "Mecha",
@@ -1104,7 +1104,7 @@
             "Super Power"
         ],
         "type": "TV",
-        "episodes": "Unknown",
+        "episodes": "1122",
         "rating": 8.58,
         "members": 704862
     },
