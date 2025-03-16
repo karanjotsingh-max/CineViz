@@ -57,14 +57,7 @@ function AnimeSearchDetails({ animeList }) {
   return (
     <div className="text-white">
       {/* Heading */}
-      <div className="text-center mb-3">
-        <h4 style={{ display: "inline-block", marginRight: "8px" }}>
-          <span role="img" aria-label="search">
-            🔎
-          </span>{" "}
-          Search Anime
-        </h4>
-      </div>
+      
 
       {/* Search Bar */}
       <div className="d-flex justify-content-center mb-4">
