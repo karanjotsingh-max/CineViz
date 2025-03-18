@@ -2,8 +2,7 @@
 import React, { useState, useMemo } from "react";
 
 function AnimeSearchDetails({ animeList }) {
-  const [searchTerm, setSearchTerm] = useState("Naruto");
-  // Whether to show the recommendation
+  const [searchTerm, setSearchTerm] = useState("One Piece");
   const [showRecommendation, setShowRecommendation] = useState(false);
 
   // PARTIAL MATCH, sorted by earliest indexOf
@@ -15,7 +14,6 @@ function AnimeSearchDetails({ animeList }) {
       item.name.toLowerCase().includes(term)
     );
 
-    // Sort by indexOf(term), then alphabetical
     results.sort((a, b) => {
       const aName = a.name.toLowerCase();
       const bName = b.name.toLowerCase();
@@ -31,11 +29,12 @@ function AnimeSearchDetails({ animeList }) {
   // The first match is the selected anime
   const selectedAnime = matchingAnime.length > 0 ? matchingAnime[0] : null;
 
-  // Recommendation logic (calculated only if showRecommendation is true)
+  // Recommendation logic (picks a random one from the best 10)
   const recommendation = useMemo(() => {
     if (!selectedAnime) return null;
     const mainGenres = selectedAnime.genre || [];
 
+    // Get 10 best matching anime
     const candidates = animeList
       .filter((a) => a.anime_id !== selectedAnime.anime_id)
       .filter((a) => {
@@ -49,16 +48,15 @@ function AnimeSearchDetails({ animeList }) {
         if (overlapB !== overlapA) return overlapB - overlapA;
         if (b.rating !== a.rating) return b.rating - a.rating;
         return b.members - a.members;
-      });
+      })
+      .slice(0, 10); // Take only the top 10
 
-    return candidates.length > 0 ? candidates[0] : null;
+    // Pick a random one from the top 10
+    return candidates.length > 0 ? candidates[Math.floor(Math.random() * candidates.length)] : null;
   }, [selectedAnime, animeList]);
 
   return (
     <div className="text-white">
-      {/* Heading */}
-      
-
       {/* Search Bar */}
       <div className="d-flex justify-content-center mb-4">
         <input
@@ -68,7 +66,7 @@ function AnimeSearchDetails({ animeList }) {
             setSearchTerm(e.target.value);
             setShowRecommendation(false); // Reset on new search
           }}
-          placeholder='Type partial name (e.g. "Naru")'
+          placeholder="Search for an anime..."
           className="form-control"
           style={{ maxWidth: "300px", border: "1px solid #E50914" }}
         />
@@ -97,7 +95,7 @@ function AnimeSearchDetails({ animeList }) {
               border: "1px solid #444",
             }}
           >
-            {/* Card Header (red, white text) */}
+            {/* Card Header */}
             <div
               className="card-header text-white"
               style={{
@@ -109,29 +107,16 @@ function AnimeSearchDetails({ animeList }) {
               <h5 className="card-title mb-0">{selectedAnime.name}</h5>
             </div>
 
-            {/* Card Body (dark background, white text) */}
-            <div
-              className="card-body text-white"
-              style={{ backgroundColor: "#2b2b2b" }}
-            >
+            {/* Card Body */}
+            <div className="card-body text-white" style={{ backgroundColor: "#2b2b2b" }}>
+              <p className="mb-2"><strong>Type:</strong> {selectedAnime.type}</p>
+              <p className="mb-2"><strong>Episodes:</strong> {selectedAnime.episodes}</p>
+              <p className="mb-2"><strong>Rating:</strong> {selectedAnime.rating}</p>
               <p className="mb-2">
-                <strong>Type:</strong> {selectedAnime.type}
-              </p>
-              <p className="mb-2">
-                <strong>Episodes:</strong> {selectedAnime.episodes}
-              </p>
-              <p className="mb-2">
-                <strong>Rating:</strong> {selectedAnime.rating}
-              </p>
-              <p className="mb-2">
-                <strong>Members:</strong>{" "}
-                {Number(selectedAnime.members).toLocaleString()}
+                <strong>Members:</strong> {Number(selectedAnime.members).toLocaleString()}
               </p>
               <p className="mb-0">
-                <strong>Genres:</strong>{" "}
-                {selectedAnime.genre?.length
-                  ? selectedAnime.genre.join(", ")
-                  : "N/A"}
+                <strong>Genres:</strong> {selectedAnime.genre?.join(", ") || "N/A"}
               </p>
             </div>
           </div>
@@ -140,36 +125,22 @@ function AnimeSearchDetails({ animeList }) {
           <div className="text-center mb-3">
             <button
               className="btn btn-danger"
-              style={{ 
-                fontWeight: "bold", 
-                backgroundColor: "#E50914", 
-                border: "none" 
-              }}
+              style={{ fontWeight: "bold", backgroundColor: "#E50914", border: "none" }}
               onClick={() => setShowRecommendation(true)}
             >
               Recommend Me
             </button>
           </div>
 
-          {/* Only show the recommendation if user clicked the button */}
+          {/* Show the recommendation if the user clicks the button */}
           {showRecommendation && (
             <div className="text-center">
               {recommendation ? (
-                <p
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: "500",
-                    marginBottom: "2rem",
-                  }}
-                >
-                  <span style={{ fontWeight: "bold" }}>You should watch:</span>{" "}
-                  {recommendation.name}
+                <p style={{ fontSize: "1.2rem", fontWeight: "500", marginBottom: "2rem" }}>
+                  <span style={{ fontWeight: "bold" }}>You should watch:</span> {recommendation.name}
                 </p>
               ) : (
-                <p
-                  className="fst-italic text-muted"
-                  style={{ marginBottom: "2rem" }}
-                >
+                <p className="fst-italic text-muted" style={{ marginBottom: "2rem" }}>
                   No recommended anime found.
                 </p>
               )}

@@ -2,10 +2,10 @@
 import React, { useState, useMemo } from "react";
 
 function MovieSearchDetails({ movieList }) {
-  const [searchTerm, setSearchTerm] = useState("The Shining");
+  const [searchTerm, setSearchTerm] = useState("The Shawshank Redemption");
   const [showRecommendation, setShowRecommendation] = useState(false);
 
-  // PARTIAL SEARCH
+  // PARTIAL MATCH, sorted by earliest indexOf
   const matchingMovies = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
     if (!term) return [];
@@ -18,19 +18,21 @@ function MovieSearchDetails({ movieList }) {
     return results;
   }, [searchTerm, movieList]);
 
-  // Selected Movie
+  // The first match is the selected movie
   const selectedMovie = matchingMovies.length > 0 ? matchingMovies[0] : null;
 
-  // Recommendation Logic
+  // Recommendation logic (picks a random one from the best 10)
   const recommendation = useMemo(() => {
     if (!selectedMovie) return null;
 
     const candidates = movieList
       .filter((m) => m.name !== selectedMovie.name)
-      .filter((m) => parseFloat(m.score) >= 8.0 && parseInt(m.votes.replace(",", "")) > 500000)
-      .sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+      .filter((m) => parseFloat(m.score) >= 7.5 && parseInt(m.votes.replace(",", "")) > 500000)
+      .sort((a, b) => parseFloat(b.score) - parseFloat(a.score))
+      .slice(0, 10); // Take only the top 10
 
-    return candidates.length > 0 ? candidates[0] : null;
+    // Pick a random one from the top 10
+    return candidates.length > 0 ? candidates[Math.floor(Math.random() * candidates.length)] : null;
   }, [selectedMovie, movieList]);
 
   return (
@@ -42,7 +44,7 @@ function MovieSearchDetails({ movieList }) {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setShowRecommendation(false);
+            setShowRecommendation(false); // Reset on new search
           }}
           placeholder="Search a movie (e.g. The Shining)"
           className="form-control"
@@ -53,6 +55,7 @@ function MovieSearchDetails({ movieList }) {
         </button>
       </div>
 
+      {/* If no movie found */}
       {!selectedMovie ? (
         <p className="text-muted fst-italic text-center">No movie found.</p>
       ) : (
@@ -78,10 +81,19 @@ function MovieSearchDetails({ movieList }) {
             </button>
           </div>
 
-          {showRecommendation && recommendation && (
-            <p className="text-center" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-              You should watch: {recommendation.name}
-            </p>
+          {/* Show the recommendation if the user clicks the button */}
+          {showRecommendation && (
+            <div className="text-center">
+              {recommendation ? (
+                <p style={{ fontSize: "1.2rem", fontWeight: "500", marginBottom: "2rem" }}>
+                  <span style={{ fontWeight: "bold" }}>You should watch:</span> {recommendation.name}
+                </p>
+              ) : (
+                <p className="fst-italic text-muted" style={{ marginBottom: "2rem" }}>
+                  No recommended movie found.
+                </p>
+              )}
+            </div>
           )}
         </>
       )}

@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 function TVSeriesSearchDetails({ tvList }) {
   const [searchTerm, setSearchTerm] = useState("Arcane");
   const [showRecommendation, setShowRecommendation] = useState(false);
+  const [randomRecommendation, setRandomRecommendation] = useState(null);
 
   // PARTIAL SEARCH
   const matchingShows = useMemo(() => {
@@ -14,15 +15,30 @@ function TVSeriesSearchDetails({ tvList }) {
 
   const selectedShow = matchingShows.length > 0 ? matchingShows[0] : null;
 
-  // Recommendation Logic
-  const recommendation = useMemo(() => {
-    if (!selectedShow) return null;
+  // Get top 10 candidates for recommendation
+  const recommendationList = useMemo(() => {
+    if (!selectedShow) return [];
 
     return tvList
-      .filter((tv) => tv.title !== selectedShow.title)
-      .filter((tv) => tv.Rating >= 8.0 && tv.Votes > 200000)
-      .sort((a, b) => b.Rating - a.Rating)[0] || null;
+      .filter((tv) => tv.title !== selectedShow.title) // Exclude selected show
+      .filter((tv) => tv.Rating >= 7.0 && tv.Votes > 100000) // Ensure rating & votes
+      .sort((a, b) => b.Rating - a.Rating) // Sort highest-rated first
+      .slice(0, 20); // Take the top 10
   }, [selectedShow, tvList]);
+
+  // Function to randomly pick a show from the top 10
+  const handleRecommendation = () => {
+    
+
+    if (recommendationList.length > 0) {
+      const randomIndex = Math.floor(Math.random() * recommendationList.length);
+      setRandomRecommendation(recommendationList[randomIndex]);
+      setShowRecommendation(true);
+    } else {
+      setRandomRecommendation(null);
+      setShowRecommendation(true);
+    }
+  };
 
   return (
     <div className="text-white">
@@ -33,7 +49,7 @@ function TVSeriesSearchDetails({ tvList }) {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setShowRecommendation(false);
+            setShowRecommendation(false); // Reset recommendation when searching
           }}
           placeholder="Search TV Series (e.g. Arcane)"
           className="form-control"
@@ -44,6 +60,7 @@ function TVSeriesSearchDetails({ tvList }) {
         </button>
       </div>
 
+      {/* If no TV show found */}
       {!selectedShow ? (
         <p className="text-muted fst-italic text-center">No TV Series found.</p>
       ) : (
@@ -61,15 +78,24 @@ function TVSeriesSearchDetails({ tvList }) {
 
           {/* Recommend Me Button */}
           <div className="text-center mb-3">
-            <button className="btn btn-danger" onClick={() => setShowRecommendation(true)}>
+            <button className="btn btn-danger" onClick={handleRecommendation}>
               Recommend Me
             </button>
           </div>
 
-          {showRecommendation && recommendation && (
-            <p className="text-center" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-              You should watch: {recommendation.title}
-            </p>
+          {/* Show the recommendation if the user clicks the button */}
+          {showRecommendation && (
+            <div className="text-center">
+              {randomRecommendation ? (
+                <p style={{ fontSize: "1.2rem", fontWeight: "500", marginBottom: "2rem" }}>
+                  <span style={{ fontWeight: "bold" }}>You should watch:</span> {randomRecommendation.title}
+                </p>
+              ) : (
+                <p className="fst-italic text-muted" style={{ marginBottom: "2rem" }}>
+                  No recommended TV series found.
+                </p>
+              )}
+            </div>
           )}
         </>
       )}
