@@ -58,7 +58,7 @@ Located in the `/utils/` folder:
 
 ### 🔹 Step 1: Clone the Repository
 ```bash
-git clone https://github.com/karanjotsingh-max/CineViz.git
+git clone https://github.com/karanjotsingh-max/CineViz
 cd CineViz
 ```
 ### 🔹 Step 2: Install Dependencies
