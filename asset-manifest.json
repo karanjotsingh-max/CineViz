@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/CineViz/static/css/main.d221dc40.css",
-    "main.js": "/CineViz/static/js/main.61093709.js",
+    "main.js": "/CineViz/static/js/main.9823af40.js",
     "static/media/image1.webp": "/CineViz/static/media/image1.58dc3ab4d568df21919d.webp",
     "static/media/image3.webp": "/CineViz/static/media/image3.cb250d0be13d8f9c5698.webp",
     "static/media/image7.webp": "/CineViz/static/media/image7.1e74b48ad01327087754.webp",
@@ -27,10 +27,10 @@
     "static/media/headingImage.png": "/CineViz/static/media/headingImage.e35293d1949a387d3179.png",
     "index.html": "/CineViz/index.html",
     "main.d221dc40.css.map": "/CineViz/static/css/main.d221dc40.css.map",
-    "main.61093709.js.map": "/CineViz/static/js/main.61093709.js.map"
+    "main.9823af40.js.map": "/CineViz/static/js/main.9823af40.js.map"
   },
   "entrypoints": [
     "static/css/main.d221dc40.css",
-    "static/js/main.61093709.js"
+    "static/js/main.9823af40.js"
   ]
 }
