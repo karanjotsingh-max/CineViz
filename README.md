@@ -2,8 +2,8 @@
 
 🚀 **CineViz** is an **interactive visualization platform** built with **React.js & Plotly.js**, offering **detailed analytics on Anime, Movies, and TV Series**. It provides **interactive charts, search functionalities, and AI-powered recommendations** to help users **discover and analyze content.**
 
-🔗 **Live Demo:** [CineViz](https://karanjotsingh-max.github.io/CineViz)  
-🔗 **GitHub Repository:** [CineViz Repo](https://github.com/karanjotsingh-max/CineViz)
+🔗 **Live Demo:** (https://karanjotsingh-max.github.io/CineViz)  
+🔗 **GitHub Repository:** (https://github.com/karanjotsingh-max/CineViz)
 
 ---
 
