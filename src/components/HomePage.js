@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import headingImage from '../images/headingImage.png';
+import centerVideo from '../images/titlevideo.mp4';
 
 // Import all images for each column
 import t1 from '../images/t1.png';
@@ -19,14 +20,12 @@ function FadingImage({ images, width, height }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Start fade-out
       setFade(false);
-      // After fade-out, update the image index and fade in
       setTimeout(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
         setFade(true);
-      }, 500); // 500ms fade duration (adjust as needed)
-    }, 6000); // change image every 3 seconds
+      }, 500); // 500ms fade duration
+    }, 6000); // change image every 6 seconds
 
     return () => clearInterval(interval);
   }, [images]);
@@ -49,6 +48,16 @@ function FadingImage({ images, width, height }) {
 }
 
 function HomePage() {
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+
+  const toggleSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setMuted(videoRef.current.muted);
+    }
+  };
+
   return (
     <div style={{
       backgroundColor: '#141414',
@@ -67,6 +76,49 @@ function HomePage() {
         alignItems: 'center',
         justifyContent: 'center'
       }}>
+        {/* TV Frame Container with sound toggle */}
+        <div style={{
+          position: 'relative', // Added for positioning the button
+          backgroundColor: '#000',
+          padding: '20px', // Simulates the TV bezel
+          borderRadius: '15px',
+          boxShadow: '0 0 20px rgba(0, 0, 0, 0.8)',
+          marginBottom: '20px',
+          maxWidth: '100%',
+          overflow: 'hidden'
+        }}>
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            style={{ width: '100%', height: '530px', display: 'block' }}
+          >
+            <source src={centerVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {/* Sound toggle button positioned at the bottom right */}
+          <button
+            onClick={toggleSound}
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              right: '20px',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              border: 'none',
+              backgroundColor: '#e01c2c',
+              color: '#fff',
+              fontSize: '18px',
+              cursor: 'pointer',
+              outline: 'none'
+            }}
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
+        </div>
+
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -92,30 +144,29 @@ function HomePage() {
           fontSize: '1.5rem',
           margin: '10px 0'
         }}>
-          Explore insights about Movies, TV series, and Anime trends in the entertainment industry.
+          Explore insights about movies, budgets, and trends in the film industry.
         </p>
         <p style={{
           fontSize: '1.5rem',
           margin: '10px 0'
         }}>
-          Use the navigation menu to browse through different categories.
+          Use the navigation menu to browse movie analytics.
         </p>
       </div>
 
-{/* Bottom images with fade transitions */}
-<div style={{
-  display: 'flex',
-  justifyContent: 'space-evenly',
-  alignItems: 'center',
-  width: '100%',
-  marginTop: '0px', // space above the images
-  marginBottom: '0px' // reduce this value to decrease the bottom margin
-}}>
-  <FadingImage images={[t1, t2, t3]} width="200px" height="50px" />
-  <FadingImage images={[k1, k2, k3]} width="200px" height="50px" />
-  <FadingImage images={[s1, s2, s3]} width="200px" height="50px" />
-</div>
-
+      {/* Bottom images with fade transitions */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        width: '100%',
+        marginTop: '0px',
+        marginBottom: '0px'
+      }}>
+        <FadingImage images={[t1, t2, t3]} width="200px" height="50px" />
+        <FadingImage images={[k1, k2, k3]} width="200px" height="50px" />
+        <FadingImage images={[s1, s2, s3]} width="200px" height="50px" />
+      </div>
     </div>
   );
 }
