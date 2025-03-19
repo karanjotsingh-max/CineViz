@@ -69,7 +69,7 @@ function GenreChart({ genreLabels, genreValues, genreDetails }) {
             textposition: 'outside',
             marker: {
               color: sortedCounts,
-              colorscale: 'Viridis',
+              colorscale: 'Reds',
               line: { color: 'black', width: 1.5 },
             },
             hoverinfo: 'x+y',
@@ -133,11 +133,13 @@ function GenreChart({ genreLabels, genreValues, genreDetails }) {
           style={{
             padding: '8px 12px',
             fontSize: '14px',
-            backgroundColor: '#007bff',
+            backgroundColor: darkMode ? '#E50914' : '#222', // Netflix Red in Dark Mode
             color: 'white',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
+            fontWeight: 'bold',
+            transition: '0.3s ease-in-out',
           }}
         >
           Sort by {sortType === 'count' ? 'Alphabetical' : 'Movie Count'}
@@ -163,11 +165,13 @@ function GenreChart({ genreLabels, genreValues, genreDetails }) {
           style={{
             padding: '8px 12px',
             fontSize: '14px',
-            backgroundColor: '#007bff',
+            backgroundColor: darkMode ? '#E50914' : '#222', // Netflix Red in Dark Mode
             color: 'white',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
+            fontWeight: 'bold',
+            transition: '0.3s ease-in-out',
           }}
         >
           {darkMode ? 'Light Mode' : 'Dark Mode'}

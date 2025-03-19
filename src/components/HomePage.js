@@ -92,13 +92,13 @@ function HomePage() {
           fontSize: '1.5rem',
           margin: '10px 0'
         }}>
-          Explore insights about movies, budgets, and trends in the film industry.
+          Explore insights about Movies, TV series, and Anime trends in the entertainment industry.
         </p>
         <p style={{
           fontSize: '1.5rem',
           margin: '10px 0'
         }}>
-          Use the navigation menu to browse movie analytics.
+          Use the navigation menu to browse through different categories.
         </p>
       </div>
 

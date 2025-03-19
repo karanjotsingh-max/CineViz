@@ -52,11 +52,13 @@ function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
           style={{
             padding: '8px 12px',
             fontSize: '14px',
-            backgroundColor: darkMode ? '#444' : '#ddd',
-            color: darkMode ? 'white' : 'black',
+            backgroundColor: darkMode ? '#E50914' : '#222', // Netflix Red in Dark Mode
+            color: 'white',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
+            fontWeight: 'bold',
+            transition: '0.3s ease-in-out',
           }}
         >
           {isRotating ? 'Pause Rotation' : 'Resume Rotation'}
