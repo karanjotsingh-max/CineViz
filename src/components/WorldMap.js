@@ -3,8 +3,8 @@ import Plot from 'react-plotly.js';
 
 function WorldMap({ countryNames, bestMovieScores, bestMovieNames }) {
   const [rotation, setRotation] = useState({ lon: 0, lat: 0, roll: 0 });
-  const [isRotating, setIsRotating] = useState(true);
-  const [rotationSpeed, setRotationSpeed] = useState(2);
+  const [isRotating, setIsRotating] = useState(false);
+  const [rotationSpeed, setRotationSpeed] = useState(1);
   const [projectionType, setProjectionType] = useState('orthographic');
   const [darkMode, setDarkMode] = useState(true); // Dark Mode Toggle
 
